@@ -6,7 +6,7 @@ def find_nth(haystack, needle, n):
     return start
 
 def birosagok_koddal():
-    with open('birosagok.txt') as f:
+    with open('birosagok.txt', encoding='utf-8') as f:
         birosagok_response_data = f.read()
 
     start_pos = find_nth(birosagok_response_data, '[', 2) + 1
@@ -15,7 +15,7 @@ def birosagok_koddal():
     birosagok_koddal = {'K': 'Kúria'}
     i = 0
     while i < len(birosagok):
-        birosagok_koddal[birosagok[i]] = birosagok[i+1]
+        birosagok_koddal[birosagok[i]] = birosagok[i+1].strip('"')
         i = i + 2
     return birosagok_koddal
 

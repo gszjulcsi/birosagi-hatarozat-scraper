@@ -13,15 +13,22 @@ Ez alapjan ket utat lattam:
 
 2. Egesz jol sikerult osszeraknom, hogy a backend service fele meno keresek hogyan epulnek fel. Igy ossze tudok rakni kereseket, amik egy bíróság neve, jogterület, ev kombinaciohoz visszaadjak a hatarozatokat. Ez alapjan jo sok lekerdezessel ossze tudunk rakni egy sajat adatbazist.
 
+
+### Hogyan futtassuk?
+Minden futtatas elott erdemes megnezni, mukodik-e meg a beepitett cookie. Ha nem, akkor browserbol ki kell masolni egy uj requestet es a cookie-t atirni. (TODO: esetleg megnezni, hogy ures cookie-val menne-e)
+```
+# 2012-es evre leszedni az osszes doksi urlt es parse-olni as eredmenyt
+$ bash fetch_osszes_birosag.sh
+$ python create_curl.py 2012 2012
+$ bash curl_commands_generated_2012_2012.sh > responses_2012.txt
+$  python parse_responses.py responses_2012.txt data_2012.json followup_queries.json
+```
+
+
 ### Progress
 
 1. Egy keressel (`fetch_osszes_birosag.sh`) le lehet szegni az osszes (157 db) birosag nevet es kodjat. Erre kesobb a requestek osszerakasanal lesz szukseg. Egyszer futtattam, a response a `birosagok.txt` file-ban talalhato. A response parse-olasat a `process_birosagok_response.py` tudja elvegezni.
 2. Tobbfele request megy ki az oldalrol, ezek megerteset segitheti az `examples` es `examples_2` file-ok (ezek tartalma szimplan curl parancsok egymas utan rakosgava)
-3. A celom az volt, hogy olyan requeateket rakjak ossze, melyek jogterulet, birosag es ev alapjan az osszes hatarozatot leszedik. Ezen az uton segit minket a `create_curl.py`. Ez a script curl parancsokat allit ossze megfeleloen felparameterezve.
+3. A celom az volt, hogy olyan requesteket rakjak ossze, melyek jogterulet, birosag es ev alapjan az osszes hatarozatot leszedik. Ezen az uton segit minket a `create_curl.py`. Ez a script curl parancsokat allit ossze megfeleloen felparameterezve.
+4. A response-okat fel tudom parse-olni, amibol `(hatarozat_id, birosag, ev, jogterulet, hatarozat_url)` adat keszul el. 
 
-### TODO
- * futtatni a `create_curl.py` altal osszerakott requesteket, megfelelo kesleltetessel, hogy ne tiltsanak ki.
- * A mostani requestek az elso max. 50 hatarozatot adjak vissza. Ezt fixalni kene, hogy MINDEN visszajojjon (vagy az 50-es limitet allitsuk kb 5000-re vagy paginationt tegyunk a rendszerbe.)
- * Parse-olni a curl-ok eredmenyeit, es ebbol egy tablazatot (DB-t?) csinalni mondjuk `(hatarozat_id, birosag, ev, jogterulet, hatarozat_url)` semaval.
- * Letolteni az osszes hatarozat dokumenumot.
- * Esetleg hatarozatok beindexelese?
