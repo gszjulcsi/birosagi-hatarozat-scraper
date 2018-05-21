@@ -20,4 +20,4 @@ def birosagok_koddal():
     return birosagok_koddal
 
 if __name__ == "__main__":
-    birosagok_koddal()
+    print(birosagok_koddal())
